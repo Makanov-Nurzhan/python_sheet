@@ -203,3 +203,108 @@ def searchInSortedMatrix(matrix, target):
         else:
             return [sR, eC]
     return [-1, -1]
+
+
+def tournamentWinner(competitions, results):
+    curWinner = ""
+    map = {curWinner: 0}
+    for i, j in enumerate(competitions):
+        homeT, anyT = j
+        winningTeam = homeT if results[i] == 1 else anyT
+        if winningTeam not in map:
+            map[winningTeam] = 0
+        map[winningTeam] += 3
+        if map[winningTeam] > map[curWinner]:
+            curWinner = winningTeam
+    return curWinner
+
+
+def subarraySort(array):
+    left, right = -1, -1
+    maxval = array[0]
+    for i, el in enumerate(array):
+        if el < maxval:
+            left = i
+        else:
+            maxval = el
+    minval = array[-1]
+    for i, el in reversed(list(enumerate(array))):
+        if el > minval:
+            right = i
+        else:
+            minval = el
+    return [right, left]
+
+
+def largestRange(array):
+    res = []
+    n = set(array)
+    maxLenth = 0
+    for i in array:
+        if (i - 1) not in n:
+            k = i
+            while k in n:
+                k += 1
+            lenth = k - i
+            if lenth > maxLenth:
+                maxLenth = lenth
+                res = [i, k - 1]
+
+    return res, maxLenth
+
+
+scores = [8, 4, 2, 1, 3, 6, 7, 9, 5]
+
+
+def minRewards(scores):
+    res = [1 for _ in scores]
+    for i in range(1, len(scores)):
+        j = i - 1
+        if scores[i] > scores[j]:
+            res[i] = res[j] + 1
+        else:
+            while j >= 0 and scores[j] > scores[j + 1]:
+                res[j] = max(res[j], res[j + 1] + 1)
+                j -= 1
+    return sum(res)
+
+
+def minRewards1(scores):
+    res = [1 for _ in scores]
+    for i in range(1, len(scores)):
+        if scores[i] > scores[i - 1]:
+            res[i] = res[i - 1] + 1
+    for i in reversed(range(len(scores) - 1)):
+        if scores[i] > scores[i + 1]:
+            res[i] = max(res[i], res[i + 1] + 1)
+    return sum(res)
+
+
+def getNthFib(n):
+    i1 = 0
+    i2 = 1
+    nextN = i2
+    count = 1
+    while count <= n:
+        count += 1
+        i1, i2 = i2, nextN
+        nextN = i1 + i2
+    return nextN
+
+
+def getNthFib1(n):
+    if n == 2:
+        return 1
+    elif n == 1:
+        return 0
+    else:
+        return (getNthFib1(n - 1) + getNthFib1(n - 2))
+
+
+def powerset(array):
+    sub = [[]]
+    for el in array:
+        for i in range(len(sub)):
+            curSub = sub[i]
+            sub.append(curSub + [el])
+    return sub
