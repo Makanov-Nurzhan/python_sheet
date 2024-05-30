@@ -16,6 +16,6 @@ def sort(stack):
         return
 
 
-stack = [5, 2, 9, 1, 3]
-sort(stack)
-print("Отсортированный стек:", stack)
+dict = my_dict = {'b': 3, 'a': 1, 'c': 2, 'd': 2}
+
+print(sorted(dict.items(), key=lambda item: (-item[1], item[0])))
